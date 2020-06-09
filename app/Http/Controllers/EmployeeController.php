@@ -7,6 +7,7 @@ use App\Department;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Employee;
+
 class EmployeeController extends Controller
 {
 
@@ -17,9 +18,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-       $employees =  Employee::with('departments')->get();
-      
-       return view('employees.index',['employees'=>$employees]);
+        $employees =  Employee::with('departments')->get();
+    
+        return view('employees.index',['employees'=>$employees]);
     }
 
     /**
@@ -30,6 +31,7 @@ class EmployeeController extends Controller
     public function create()
     {
         $departments = Department::get();
+
         return view('employees.create',['departments'=>$departments]);
     }
 
@@ -40,17 +42,15 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {   
-     
+        
         $validated =  $request->validated();
         
         $employee = Employee::create($validated);
-        
         #many to many creating(one employee choose many departments)
         $departments = $validated['departments'];
-        
         $departments = Department::find($departments);
-        
         $employee->departments()->attach($departments);
+
         return redirect()->route('indexEmp');
     }
 
@@ -66,7 +66,8 @@ class EmployeeController extends Controller
     public function edit(Employee $employee)
     {
         $departments = Department::get();
-        return view('employees.edit',['employee'=>$employee,'departments'=>$departments]);
+
+        return view('employees.edit',['employee'=>$employee, 'departments'=>$departments]);
     }
 
     /**
@@ -76,15 +77,15 @@ class EmployeeController extends Controller
      * @param UpdateDepartmentRequest $request
      * @return Response
      */
-    public function update(Employee $employee,UpdateEmployeeRequest $request)
+    public function update(Employee $employee, UpdateEmployeeRequest $request)
     {
         $validated =  $request->validated();
+
         $employee->update($validated);
-        
         $departments = $validated['departments'];
-       
         $departments = Department::find($departments);
         $employee->departments()->sync($departments);
+
         return redirect()->route('indexEmp');
     }
 
@@ -96,10 +97,9 @@ class EmployeeController extends Controller
      */
     public function destroy($employee)
     {
-       
         Employee::destroy($employee);
+        
         return redirect()->route('indexEmp');
     }
 
 }
-

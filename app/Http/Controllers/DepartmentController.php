@@ -17,9 +17,9 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-       $departments =  Department::get();
+        $departments =  Department::get();
 
-       return view('departments.index',['departments'=>$departments]);
+        return view('departments.index',['departments'=>$departments]);
     }
 
     /**
@@ -28,8 +28,7 @@ class DepartmentController extends Controller
      * @return Response
      */
     public function create()
-    {
-       
+    { 
         return view('departments.create');
     }
 
@@ -40,11 +39,11 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {   
-     
-       $validated =  $request->validated();
-      
-       $department = Department::create($validated);
-       return redirect()->route('indexDep');
+        $validated =  $request->validated();
+
+        $department = Department::create($validated);
+
+        return redirect()->route('indexDep');
     }
 
   
@@ -67,11 +66,13 @@ class DepartmentController extends Controller
      * @param UpdateDepartmentRequest $request
      * @return Response
      */
-    public function update(Department $department,UpdateDepartmentRequest $request)
+    public function update(Department $department, UpdateDepartmentRequest $request)
     {
-       $validated =  $request->validated();
-       $department->update($validated);
-       return redirect()->route('indexDep');
+        $validated =  $request->validated();
+
+        $department->update($validated);
+        
+        return redirect()->route('indexDep');
     }
 
     /**
@@ -83,16 +84,15 @@ class DepartmentController extends Controller
     public function destroy($department)
     {
         $employees = Department::find($department)->employees()->exists();
-        if(!$employees)
-        {
+        
+        if (!$employees) {
             Department::destroy($department);
             return redirect()->route('indexDep');
-        }
-        else
-        {
-            return redirect()->route('indexDep')->withErrors(['destroy'=>'You can not delete it, because it has relations with employees. First of all delete all relational employees']);
+        } else {
+            return redirect()->route('indexDep')
+                ->withErrors(['destroy'=>'You can not delete it, because it has relations with employees. 
+                    First of all delete all relational employees']);
         }
         
     }
-
 }

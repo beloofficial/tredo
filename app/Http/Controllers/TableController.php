@@ -8,11 +8,12 @@ use App\Employee;
 
 class TableController extends Controller
 {
-    
+
     public function show()
     {
         $departments = Department::get();
         $employees = Employee::get();
-        return view('table.table',['departments'=>$departments,'employees'=>$employees]);
+        
+        return view('table.table',['departments'=>$departments, 'employees'=>$employees]);
     }
 }

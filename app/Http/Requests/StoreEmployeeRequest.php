@@ -37,12 +37,9 @@ class StoreEmployeeRequest extends FormRequest
     {
         return [
             'salary.required' => 'A Salary is required',
-            'salary.integer' => 'A Salary must be integer',
-            
+            'salary.integer' => 'A Salary must be integer', 
             'name.required' => 'A Name is required',
             'surname.required' => 'A Surname is required',
-
-
         ];
     }
 }

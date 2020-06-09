@@ -32,6 +32,7 @@ class UpdateEmployeeRequest extends FormRequest
             'departments'=>'required',
         ];
     }
+    
     public function messages()
     {
         return [
